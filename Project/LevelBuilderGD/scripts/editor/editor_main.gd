@@ -21,7 +21,7 @@ func save_to_file():
 # MAP FUNCTIONS #
 
 func prepare_new_map():
-	builder.create_terrain()
+	builder.initialize_level()
 	
 	print('New map prepared')
 	

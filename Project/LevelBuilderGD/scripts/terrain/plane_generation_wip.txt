@@ -1,0 +1,40 @@
+    # initialize mesh
+    # TODO: null checks
+    _mesh = ArrayMesh.new()
+    
+    _surfaceArray.clear()
+    _surfaceArray.resize(Mesh.ARRAY_MAX)
+    
+    _vertices.clear()
+    _indices.clear()
+    _uvs.clear()
+    _normals.clear()
+    
+    # generate mesh data
+    var triIndex = 0
+    var vertIndex = 0
+    for x in range(resolution):
+        for y in range(resolution):
+            # generate vertex
+            _vertices.append(Vector3(x,0,y))
+            
+            # calculate triangle data
+            _indices.append(vertIndex)
+            _indices.append(vertIndex + resolution + 1)
+            _indices.append(vertIndex + 1)
+            _indices.append(vertIndex + 1)
+            _indices.append(vertIndex + resolution + 1)
+            _indices.append(vertIndex + resolution + 2)
+            
+            triIndex += 6
+            vertIndex += 1
+        
+        vertIndex += 1
+    
+    # apply data
+    _surfaceArray[Mesh.ARRAY_VERTEX] = _vertices
+    _surfaceArray[Mesh.ARRAY_INDEX] = _indices
+    _surfaceArray[Mesh.ARRAY_TEX_UV] = _uvs
+    _surfaceArray[Mesh.ARRAY_NORMAL] = _normals
+    _mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, _surfaceArray)
+    mesh = _mesh
