@@ -1,0 +1,25 @@
+[gd_scene load_steps=7 format=3 uid="uid://c7tg873gjkq4c"]
+
+[ext_resource type="Script" path="res://scripts/editor/editor_main.gd" id="1_02vvt"]
+[ext_resource type="Script" path="res://scripts/editor/editor_builder.gd" id="2_x8mpy"]
+[ext_resource type="Script" path="res://scripts/control/camera_free.gd" id="3_kv480"]
+[ext_resource type="Material" uid="uid://sgdoanwwof0b" path="res://materials/mat_sky.tres" id="3_vkjrj"]
+
+[sub_resource type="Sky" id="Sky_08cym"]
+sky_material = ExtResource("3_vkjrj")
+
+[sub_resource type="Environment" id="Environment_3sj8v"]
+background_mode = 2
+sky = SubResource("Sky_08cym")
+
+[node name="editor_main" type="Node3D"]
+script = ExtResource("1_02vvt")
+
+[node name="editor_builder" type="Node" parent="."]
+script = ExtResource("2_x8mpy")
+
+[node name="environment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3sj8v")
+
+[node name="camera_free" type="Camera3D" parent="."]
+script = ExtResource("3_kv480")
