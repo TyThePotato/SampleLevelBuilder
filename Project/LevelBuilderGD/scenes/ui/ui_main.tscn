@@ -1,19 +1,85 @@
 [gd_scene load_steps=2 format=3 uid="uid://dkhhuhw8dy2p6"]
 
-[ext_resource type="Script" path="res://scripts/ui/fps_counter.gd" id="1_65ajj"]
+[ext_resource type="Script" path="res://scripts/editor/editor_ui.gd" id="1_gbmvw"]
 
-[node name="ui_main" type="Control"]
+[node name="ui_main" type="Control" node_paths=PackedStringArray("_menu_button_level", "_menu_button_edit", "_menu_button_view")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_gbmvw")
+_menu_button_level = NodePath("vbox/menu_bar/hbox/menubtn_level")
+_menu_button_edit = NodePath("vbox/menu_bar/hbox/menubtn_edit")
+_menu_button_view = NodePath("vbox/menu_bar/hbox/menubtn_view")
 
-[node name="fps_counter" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "
-"
-script = ExtResource("1_65ajj")
+[node name="vbox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="menu_bar" type="Control" parent="vbox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="bg" type="Panel" parent="vbox/menu_bar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="hbox" type="HBoxContainer" parent="vbox/menu_bar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="menubtn_level" type="MenuButton" parent="vbox/menu_bar/hbox"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "Level"
+item_count = 6
+popup/item_0/text = "New Level"
+popup/item_0/id = 0
+popup/item_1/text = "Open Level"
+popup/item_1/id = 1
+popup/item_2/text = "Save Level"
+popup/item_2/id = 2
+popup/item_3/text = "Save Level As"
+popup/item_3/id = 3
+popup/item_4/text = ""
+popup/item_4/id = 5
+popup/item_4/separator = true
+popup/item_5/text = "Exit"
+popup/item_5/id = 4
+
+[node name="menubtn_edit" type="MenuButton" parent="vbox/menu_bar/hbox"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "Edit"
+item_count = 4
+popup/item_0/text = "Add Object"
+popup/item_0/id = 0
+popup/item_1/text = "Delete Object[s]"
+popup/item_1/id = 2
+popup/item_2/text = ""
+popup/item_2/id = 2
+popup/item_2/separator = true
+popup/item_3/text = "Ping"
+popup/item_3/id = 3
+
+[node name="menubtn_view" type="MenuButton" parent="vbox/menu_bar/hbox"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "View"
+item_count = 1
+popup/item_0/text = "About"
+popup/item_0/id = 0

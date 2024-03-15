@@ -32,3 +32,5 @@ transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -
 [node name="camera_free" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 script = ExtResource("3_kv480")
+
+[connection signal="btn_ping" from="canvas/ui_main" to="." method="ping"]
