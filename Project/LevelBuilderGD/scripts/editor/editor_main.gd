@@ -1,8 +1,13 @@
 class_name EditorMain
 extends Node
 
+# prefabs
+@export var editor_camera_prefab: PackedScene
+
+# node references
 @onready var builder: EditorBuilder = $editor_builder
 
+# level properties
 var level_name: String = 'New Level'
 
 func _ready():
@@ -14,6 +19,16 @@ func _ready():
 	create_new_file()
 
 # EDITOR FUNCTIONS #
+
+func create_editor_camera(sub_viewport: SubViewport):
+	var cam : Camera3D = editor_camera_prefab.instantiate()
+	
+	# add default offset
+	cam.position += Vector3(0, 3, 0)
+
+	sub_viewport.add_child(cam)
+	
+	print('Editor camera created')
 
 func editor_exit():
 	# TODO: confirmation prompt

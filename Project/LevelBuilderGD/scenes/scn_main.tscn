@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://c7tg873gjkq4c"]
 
 [ext_resource type="Script" path="res://scripts/editor/editor_main.gd" id="1_02vvt"]
+[ext_resource type="PackedScene" uid="uid://dp32qy7216eyp" path="res://scenes/prefabs/pfb_editor_camera.tscn" id="2_s7jxf"]
 [ext_resource type="Script" path="res://scripts/editor/editor_builder.gd" id="2_x8mpy"]
 [ext_resource type="PackedScene" uid="uid://dkhhuhw8dy2p6" path="res://scenes/ui/ui_main.tscn" id="3_40rnc"]
-[ext_resource type="Script" path="res://scripts/control/camera_free.gd" id="3_kv480"]
 [ext_resource type="Material" uid="uid://sgdoanwwof0b" path="res://materials/mat_sky.tres" id="3_vkjrj"]
 
 [sub_resource type="Sky" id="Sky_08cym"]
@@ -15,6 +15,7 @@ sky = SubResource("Sky_08cym")
 
 [node name="editor_main" type="Node3D"]
 script = ExtResource("1_02vvt")
+editor_camera_prefab = ExtResource("2_s7jxf")
 
 [node name="editor_builder" type="Node" parent="."]
 script = ExtResource("2_x8mpy")
@@ -29,12 +30,9 @@ environment = SubResource("Environment_3sj8v")
 [node name="dir_light" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 0, 0)
 
-[node name="camera_free" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
-script = ExtResource("3_kv480")
-
 [connection signal="btn_edit_new" from="canvas/ui_main" to="." method="cmd_object_new"]
 [connection signal="btn_edit_redo" from="canvas/ui_main" to="." method="cmd_redo"]
 [connection signal="btn_edit_undo" from="canvas/ui_main" to="." method="cmd_undo"]
 [connection signal="btn_editor_exit" from="canvas/ui_main" to="." method="editor_exit"]
 [connection signal="btn_ping" from="canvas/ui_main" to="." method="cmd_ping"]
+[connection signal="request_camera_bind" from="canvas/ui_main" to="." method="create_editor_camera"]

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dp32qy7216eyp"]
+
+[ext_resource type="Script" path="res://scripts/control/editor_camera.gd" id="1_o7fdj"]
+
+[node name="PfbEditorCamera" type="Camera3D"]
+script = ExtResource("1_o7fdj")

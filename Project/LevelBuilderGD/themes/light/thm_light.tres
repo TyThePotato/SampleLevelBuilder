@@ -1,0 +1,39 @@
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://cxh7ldhx5mqkh"]
+
+[ext_resource type="StyleBox" uid="uid://b6crbvwvec1ky" path="res://themes/light/thm_light_element_disabled.tres" id="1_0u7q6"]
+[ext_resource type="StyleBox" uid="uid://cv2b3yahqqv43" path="res://themes/light/thm_light_element_hover.tres" id="2_agd5j"]
+[ext_resource type="StyleBox" uid="uid://dux4ywb5yfnhg" path="res://themes/light/thm_light_element_focus.tres" id="2_nvhio"]
+[ext_resource type="StyleBox" uid="uid://cxfn6dpsls2n6" path="res://themes/light/thm_light_background.tres" id="2_vfi30"]
+[ext_resource type="StyleBox" uid="uid://cj8ekrskiv8ls" path="res://themes/light/thm_light_element.tres" id="3_0unwr"]
+[ext_resource type="StyleBox" uid="uid://dmnrmvrv26xbh" path="res://themes/light/thm_light_element_press.tres" id="4_j61kp"]
+[ext_resource type="StyleBox" uid="uid://bhs2t4hrq3sh4" path="res://themes/shared/thm_shared_empty.tres" id="6_87ddj"]
+[ext_resource type="StyleBox" uid="uid://ch7ynb2lcmacp" path="res://themes/light/thm_light_foreground.tres" id="8_67egq"]
+[ext_resource type="StyleBox" uid="uid://btqrw3b5bwkej" path="res://themes/light/thm_light_header.tres" id="9_otds0"]
+
+[resource]
+BoxContainer/constants/separation = 4
+Button/colors/font_color = Color(0.152941, 0.152941, 0.152941, 1)
+Button/styles/disabled = ExtResource("1_0u7q6")
+Button/styles/focus = ExtResource("2_nvhio")
+Button/styles/hover = ExtResource("2_agd5j")
+Button/styles/normal = ExtResource("3_0unwr")
+Button/styles/pressed = ExtResource("4_j61kp")
+ForegroundPanel/base_type = &"Panel"
+ForegroundPanel/styles/panel = ExtResource("8_67egq")
+Label/colors/font_color = Color(0.152941, 0.152941, 0.152941, 1)
+LabelOutline/base_type = &"Label"
+LabelOutline/colors/font_color = Color(1, 1, 1, 1)
+LabelOutline/colors/font_outline_color = Color(0.152941, 0.152941, 0.152941, 1)
+LabelOutline/constants/outline_size = 3
+MenuBar/colors/font_color = Color(0.152941, 0.152941, 0.152941, 1)
+MenuBar/constants/h_separation = 12
+MenuBar/styles/disabled = ExtResource("6_87ddj")
+MenuBar/styles/hover = ExtResource("6_87ddj")
+MenuBar/styles/normal = ExtResource("6_87ddj")
+MenuBar/styles/pressed = ExtResource("6_87ddj")
+Panel/styles/panel = ExtResource("2_vfi30")
+PanelHeader/base_type = &"Panel"
+PanelHeader/styles/panel = ExtResource("9_otds0")
+SplitContainer/constants/autohide = 1
+SplitContainer/constants/minimum_grab_thickness = 8
+SplitContainer/constants/separation = 8

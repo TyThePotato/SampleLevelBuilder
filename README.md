@@ -20,8 +20,8 @@ Licensed under the MIT License (more info in LICENSE file).
 
 ### Interface
 - [🚧] Menu bar
-- [📆] Level outliner
-- [📆] Selection properties
+- [🚧] Level outliner
+- [🚧] Selection properties
 - [📆] Color wheel
 - [📆] 3D translate/rotate/scale gizmos
 - [📆] Editor settings

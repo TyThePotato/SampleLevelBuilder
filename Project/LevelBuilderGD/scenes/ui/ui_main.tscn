@@ -1,19 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkhhuhw8dy2p6"]
+[gd_scene load_steps=5 format=3 uid="uid://dkhhuhw8dy2p6"]
 
 [ext_resource type="Script" path="res://scripts/ui/editor_ui.gd" id="1_8skki"]
+[ext_resource type="Theme" uid="uid://cxh7ldhx5mqkh" path="res://themes/light/thm_light.tres" id="1_wmxdq"]
 [ext_resource type="Script" path="res://scripts/ui/history_log.gd" id="2_16ktv"]
+[ext_resource type="Script" path="res://scripts/ui/fps_counter.gd" id="3_ux4yc"]
 
-[node name="ui_main" type="Control" node_paths=PackedStringArray("_menu_button_level", "_menu_button_edit", "_menu_button_view")]
+[node name="ui_main" type="Control" node_paths=PackedStringArray("_sub_viewport")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_wmxdq")
 script = ExtResource("1_8skki")
-_menu_button_level = NodePath("vbox/menu_bar/hbox/menubtn_level")
-_menu_button_edit = NodePath("vbox/menu_bar/hbox/menubtn_edit")
-_menu_button_view = NodePath("vbox/menu_bar/hbox/menubtn_view")
+_sub_viewport = NodePath("vbox/bottom/hsplit/3d_viewport/viewport_container/sub_viewport")
+
+[node name="background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="vbox" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -35,7 +44,99 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="hbox" type="HBoxContainer" parent="vbox/menu_bar"]
+[node name="MenuBar" type="MenuBar" parent="vbox/menu_bar"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -11.5
+offset_right = 12.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Level" type="PopupMenu" parent="vbox/menu_bar/MenuBar"]
+size = Vector2i(131, 147)
+item_count = 6
+item_0/text = "New Level"
+item_0/id = 0
+item_1/text = "Open Level"
+item_1/id = 1
+item_2/text = "Save Level"
+item_2/id = 2
+item_3/text = "Save Level As"
+item_3/id = 3
+item_4/text = ""
+item_4/id = 0
+item_4/separator = true
+item_5/text = "Exit Editor"
+item_5/id = 4
+
+[node name="Edit" type="PopupMenu" parent="vbox/menu_bar/MenuBar"]
+item_count = 7
+item_0/text = "New Object"
+item_0/id = 0
+item_1/text = "Delete Object"
+item_1/id = 1
+item_2/text = ""
+item_2/id = 0
+item_2/separator = true
+item_3/text = "Undo"
+item_3/id = 2
+item_4/text = "Redo"
+item_4/id = 3
+item_5/text = ""
+item_5/id = 0
+item_5/separator = true
+item_6/text = "Ping"
+item_6/id = 4
+
+[node name="View" type="PopupMenu" parent="vbox/menu_bar/MenuBar"]
+item_count = 1
+item_0/text = "About Editor"
+item_0/id = 0
+
+[node name="bottom" type="Control" parent="vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="hsplit" type="HSplitContainer" parent="vbox/bottom"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="3d_viewport" type="Control" parent="vbox/bottom/hsplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="viewport_container" type="SubViewportContainer" parent="vbox/bottom/hsplit/3d_viewport"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="sub_viewport" type="SubViewport" parent="vbox/bottom/hsplit/3d_viewport/viewport_container"]
+handle_input_locally = false
+size = Vector2i(872, 588)
+render_target_update_mode = 4
+
+[node name="editing_windows" type="Control" parent="vbox/bottom/hsplit"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+
+[node name="vsplit" type="VSplitContainer" parent="vbox/bottom/hsplit/editing_windows"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,56 +144,83 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="menubtn_level" type="MenuButton" parent="vbox/menu_bar/hbox"]
-custom_minimum_size = Vector2(64, 0)
+[node name="outliner" type="Control" parent="vbox/bottom/hsplit/editing_windows/vsplit"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-text = "Level"
-item_count = 6
-popup/item_0/text = "New Level"
-popup/item_0/id = 0
-popup/item_1/text = "Open Level"
-popup/item_1/id = 1
-popup/item_2/text = "Save Level"
-popup/item_2/id = 2
-popup/item_3/text = "Save Level As"
-popup/item_3/id = 3
-popup/item_4/text = ""
-popup/item_4/id = 4
-popup/item_4/separator = true
-popup/item_5/text = "Exit"
-popup/item_5/id = 5
+size_flags_vertical = 3
 
-[node name="menubtn_edit" type="MenuButton" parent="vbox/menu_bar/hbox"]
-custom_minimum_size = Vector2(64, 0)
+[node name="bg" type="Panel" parent="vbox/bottom/hsplit/editing_windows/vsplit/outliner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"ForegroundPanel"
+
+[node name="vbox" type="VBoxContainer" parent="vbox/bottom/hsplit/editing_windows/vsplit/outliner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="header" type="Panel" parent="vbox/bottom/hsplit/editing_windows/vsplit/outliner/vbox"]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
-text = "Edit"
-item_count = 7
-popup/item_0/text = "Add Object"
-popup/item_0/id = 0
-popup/item_1/text = "Delete Object[s]"
-popup/item_1/id = 1
-popup/item_2/text = ""
-popup/item_2/id = 2
-popup/item_2/separator = true
-popup/item_3/text = "Undo"
-popup/item_3/id = 3
-popup/item_4/text = "Redo"
-popup/item_4/id = 4
-popup/item_5/text = ""
-popup/item_5/id = 5
-popup/item_5/separator = true
-popup/item_6/text = "Ping"
-popup/item_6/id = 6
+theme_type_variation = &"PanelHeader"
 
-[node name="menubtn_view" type="MenuButton" parent="vbox/menu_bar/hbox"]
-custom_minimum_size = Vector2(64, 0)
+[node name="label" type="Label" parent="vbox/bottom/hsplit/editing_windows/vsplit/outliner/vbox/header"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Outliner"
+
+[node name="properties" type="Control" parent="vbox/bottom/hsplit/editing_windows/vsplit"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-text = "View"
-item_count = 1
-popup/item_0/text = "About"
-popup/item_0/id = 0
+size_flags_vertical = 3
 
-[node name="History" type="Label" parent="."]
+[node name="bg" type="Panel" parent="vbox/bottom/hsplit/editing_windows/vsplit/properties"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"ForegroundPanel"
+
+[node name="vbox" type="VBoxContainer" parent="vbox/bottom/hsplit/editing_windows/vsplit/properties"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="header" type="Panel" parent="vbox/bottom/hsplit/editing_windows/vsplit/properties/vbox"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_type_variation = &"PanelHeader"
+
+[node name="label" type="Label" parent="vbox/bottom/hsplit/editing_windows/vsplit/properties/vbox/header"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Properties"
+
+[node name="history_log" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -106,3 +234,19 @@ grow_vertical = 0
 horizontal_alignment = 2
 vertical_alignment = 2
 script = ExtResource("2_16ktv")
+
+[node name="fps_counter" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
+theme_type_variation = &"LabelOutline"
+vertical_alignment = 2
+script = ExtResource("3_ux4yc")
+
+[connection signal="id_pressed" from="vbox/menu_bar/MenuBar/Level" to="." method="_menu_btn_level"]
+[connection signal="id_pressed" from="vbox/menu_bar/MenuBar/Edit" to="." method="_menu_btn_edit"]
+[connection signal="id_pressed" from="vbox/menu_bar/MenuBar/View" to="." method="_menu_btn_view"]
