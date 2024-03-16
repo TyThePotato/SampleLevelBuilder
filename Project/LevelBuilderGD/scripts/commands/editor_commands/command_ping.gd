@@ -1,9 +1,11 @@
+class_name CommandPing
 extends BaseCommand
 
-class_name CommandPing
+func _init():
+    human_readable_name = 'Ping'
 
-func execute_command(_editor_main: EditorMain):
+func execute_command():
     print("Ping!")
     
-func execute_command_revert(_editor_main: EditorMain):
+func execute_command_revert():
     print("Pong!")

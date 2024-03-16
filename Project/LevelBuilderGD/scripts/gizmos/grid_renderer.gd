@@ -7,6 +7,9 @@ var size: int = 100
 var spacing: float = 1.0
 var showAxes: bool = true
 
+func _init():
+	name = 'grid'
+
 func _process(delta):
 	# draw grid
 	Dbg3.draw_grid(Vector3.ZERO, 

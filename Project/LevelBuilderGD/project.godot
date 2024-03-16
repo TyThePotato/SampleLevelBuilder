@@ -37,6 +37,7 @@ folder_colors={
 "res://meshes/": "red",
 "res://scenes/": "yellow",
 "res://scripts/": "green",
+"res://scripts/commands/editor_commands/": "gray",
 "res://sprites/": "purple",
 "res://textures/": "pink"
 }

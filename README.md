@@ -1,13 +1,10 @@
 # Sample Level Builder
-General-purpose level creation tool created in Godot 4.2.1.
+General-purpose level creation tool created in Godot 4.2.1. Intended to be forked and expanded upon to suit the needs of individual projects.
 
 Licensed under the MIT License (more info in LICENSE file).
 
 ## Features
-**Icon Key:**
-- [✅] Implemented
-- [🚧] In-Progress
-- [📆] Planned
+✅: *Implemented*, 🚧: *In-Progress*, 📆: *Planned*
 
 ### File Management
 - [📆] Saving/Opening files
@@ -16,21 +13,20 @@ Licensed under the MIT License (more info in LICENSE file).
 - [📆] Exporting to universal format (.obj / .gltf ?)
 
 ### General Editing Features
-- [📆] Object creation/selection/deletion
+- [🚧] Object creation/selection/deletion
 - [📆] Multi-Selection
 - [📆] Basic object shapes
-- [📆] Modification history (with quick undo/redo)
+- [✅] Undo/Redo
 
 ### Interface
 - [🚧] Menu bar
 - [📆] Level outliner
 - [📆] Selection properties
 - [📆] Color wheel
+- [📆] 3D translate/rotate/scale gizmos
 - [📆] Editor settings
 - [📆] In-editor CLI / scripting
+- [🚧] History outliner
 
 ### QOL
 - [📆] Command hotkeys
-
-### Internal
-- [🚧] Command-based editing
