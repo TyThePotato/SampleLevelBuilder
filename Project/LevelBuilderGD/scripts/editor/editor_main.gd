@@ -5,7 +5,11 @@ extends Node
 @export var editor_camera_prefab: PackedScene
 
 # node references
+# TODO: autoload?
 @onready var builder: EditorBuilder = $editor_builder
+@onready var ui: EditorUI = $canvas/ui_main
+
+var _level_root_node: Node3D
 
 # level properties
 var level_name: String = 'New Level'
@@ -49,11 +53,18 @@ func save_to_file():
 # LEVEL FUNCTIONS #
 
 func prepare_new_level():
-	builder.initialize_level()
+	# create root
+	_level_root_node = builder.initialize_level()
+	
+	# create initial terrain
+	var terrain := builder.create_terrain()
+
+	ui.add_nodes_to_outliner([_level_root_node, terrain])
 	
 	print('New level prepared')
 	
 func clear_level():
+	# TODO: delete all geometry & reset ui
 	print('Level cleared')
 
 # EDITING FUNCTIONS #
@@ -65,16 +76,24 @@ func objects_new(properties: Array[LevelObjectProperties]) -> Array[LevelObject]
 		builder.add_object(obj)
 		ret_array.append(obj)
 		
+	ui.add_nodes_to_outliner(ret_array)
+
 	return ret_array
 	
 func objects_delete(objects: Array[LevelObject]) -> void:
 	for object in objects:
 		builder.remove_object(object)
+		
+	ui.remove_nodes_from_outliner(objects)
 
 # COMMAND FUNCTIONS #
 
 func cmd_object_new():
-	var cmd := CommandObjectNew.new(LevelObjectProperties.new())
+	var props := LevelObjectProperties.new()
+	var rand_pos := Vector3(randf() * 10, 1, randf() * 10)
+	props.position = rand_pos
+	
+	var cmd := CommandObjectNew.new(props)
 	CommandManager.insert_command(cmd, true)
 
 func cmd_undo():

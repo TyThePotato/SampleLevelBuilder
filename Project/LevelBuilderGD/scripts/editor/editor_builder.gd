@@ -8,18 +8,17 @@ var grid_node: GridRenderer
 
 var terrain_resolution: int = 32
 
-func initialize_level() -> void:
+func _ready() -> void:
+	create_grid()
+
+func initialize_level() -> Node3D:
 	# create root node
 	level_root_node = Node3D.new()
-	level_root_node.name = 'level_root'
+	level_root_node.name = 'Level'
 	add_child(level_root_node)
 	
-	# create grid
-	create_grid()
+	return level_root_node
 	
-	# create initial level geometry
-	create_terrain()
-
 func add_object(object: LevelObject):
 	level_root_node.add_child(object)
 	
@@ -27,17 +26,19 @@ func remove_object(object: LevelObject):
 	level_root_node.remove_child(object)
 	object.queue_free()
 
-func create_terrain() -> bool:
+func create_terrain() -> Terrain:
 	if terrain_node != null:
-		return false
+		return terrain_node
 	
 	terrain_node = Terrain.new()
+	terrain_node.name = 'Terrain'
 	terrain_node.resolution = terrain_resolution
 	terrain_node.build()
 	level_root_node.add_child(terrain_node)
 
-	return true
+	return terrain_node
 	
+# TODO: move elsewhere?
 func create_grid() -> bool:
 	if grid_node != null:
 		return false

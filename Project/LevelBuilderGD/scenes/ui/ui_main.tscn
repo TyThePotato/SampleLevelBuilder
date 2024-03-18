@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dkhhuhw8dy2p6"]
+[gd_scene load_steps=8 format=3 uid="uid://dkhhuhw8dy2p6"]
 
 [ext_resource type="Script" path="res://scripts/ui/editor_ui.gd" id="1_8skki"]
 [ext_resource type="Theme" uid="uid://cxh7ldhx5mqkh" path="res://themes/light/thm_light.tres" id="1_wmxdq"]
 [ext_resource type="Script" path="res://scripts/ui/history_log.gd" id="2_16ktv"]
+[ext_resource type="Texture2D" uid="uid://bn1rxs674bej6" path="res://sprites/outliner/spr_generic.png" id="3_3h17x"]
 [ext_resource type="Script" path="res://scripts/ui/fps_counter.gd" id="3_ux4yc"]
+[ext_resource type="Texture2D" uid="uid://cwxpjduk410eu" path="res://sprites/outliner/spr_object.png" id="4_wybqb"]
+[ext_resource type="Texture2D" uid="uid://d1rn3tvmk4ccj" path="res://sprites/outliner/spr_terrain.png" id="5_ugi7j"]
 
-[node name="ui_main" type="Control" node_paths=PackedStringArray("_sub_viewport")]
+[node name="ui_main" type="Control" node_paths=PackedStringArray("_sub_viewport", "_outliner_tree")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,6 +18,10 @@ grow_vertical = 2
 theme = ExtResource("1_wmxdq")
 script = ExtResource("1_8skki")
 _sub_viewport = NodePath("vbox/bottom/hsplit/3d_viewport/viewport_container/sub_viewport")
+_outliner_tree = NodePath("vbox/bottom/hsplit/editing_windows/vsplit/outliner/vbox/tree")
+_outliner_icon_generic = ExtResource("3_3h17x")
+_outliner_icon_object = ExtResource("4_wybqb")
+_outliner_icon_terrain = ExtResource("5_ugi7j")
 
 [node name="background" type="Panel" parent="."]
 layout_mode = 1
@@ -182,6 +189,12 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Outliner"
 
+[node name="tree" type="Tree" parent="vbox/bottom/hsplit/editing_windows/vsplit/outliner/vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+hide_folding = true
+scroll_horizontal_enabled = false
+
 [node name="properties" type="Control" parent="vbox/bottom/hsplit/editing_windows/vsplit"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
@@ -231,6 +244,7 @@ offset_left = -40.0
 offset_top = -23.0
 grow_horizontal = 0
 grow_vertical = 0
+theme_type_variation = &"LabelOutline"
 horizontal_alignment = 2
 vertical_alignment = 2
 script = ExtResource("2_16ktv")

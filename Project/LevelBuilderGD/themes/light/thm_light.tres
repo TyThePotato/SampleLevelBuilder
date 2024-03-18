@@ -37,3 +37,7 @@ PanelHeader/styles/panel = ExtResource("9_otds0")
 SplitContainer/constants/autohide = 1
 SplitContainer/constants/minimum_grab_thickness = 8
 SplitContainer/constants/separation = 8
+Tree/colors/font_color = Color(0.152941, 0.152941, 0.152941, 1)
+Tree/styles/panel = ExtResource("8_67egq")
+Tree/styles/selected = ExtResource("3_0unwr")
+Tree/styles/selected_focus = ExtResource("3_0unwr")
