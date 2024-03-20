@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://c7tg873gjkq4c"]
+[gd_scene load_steps=10 format=3 uid="uid://c7tg873gjkq4c"]
 
 [ext_resource type="Script" path="res://scripts/editor/editor_main.gd" id="1_02vvt"]
 [ext_resource type="PackedScene" uid="uid://dp32qy7216eyp" path="res://scenes/prefabs/pfb_editor_camera.tscn" id="2_s7jxf"]
 [ext_resource type="Script" path="res://scripts/editor/editor_builder.gd" id="2_x8mpy"]
 [ext_resource type="PackedScene" uid="uid://dkhhuhw8dy2p6" path="res://scenes/ui/ui_main.tscn" id="3_40rnc"]
 [ext_resource type="Material" uid="uid://sgdoanwwof0b" path="res://materials/mat_sky.tres" id="3_vkjrj"]
+[ext_resource type="Script" path="res://scripts/gizmos/grid_renderer.gd" id="6_5kuho"]
+[ext_resource type="Material" uid="uid://b6vak65r3p052" path="res://materials/generic/mat_unlit_vtxcolor.tres" id="6_ocqro"]
 
 [sub_resource type="Sky" id="Sky_08cym"]
 sky_material = ExtResource("3_vkjrj")
@@ -30,9 +32,16 @@ environment = SubResource("Environment_3sj8v")
 [node name="dir_light" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 0, 0)
 
+[node name="grid" type="MeshInstance3D" parent="."]
+material_override = ExtResource("6_ocqro")
+script = ExtResource("6_5kuho")
+
+[connection signal="btn_edit_delete" from="canvas/ui_main" to="." method="cmd_object_delete"]
 [connection signal="btn_edit_new" from="canvas/ui_main" to="." method="cmd_object_new"]
 [connection signal="btn_edit_redo" from="canvas/ui_main" to="." method="cmd_redo"]
 [connection signal="btn_edit_undo" from="canvas/ui_main" to="." method="cmd_undo"]
 [connection signal="btn_editor_exit" from="canvas/ui_main" to="." method="editor_exit"]
 [connection signal="btn_ping" from="canvas/ui_main" to="." method="cmd_ping"]
+[connection signal="node_deselected" from="canvas/ui_main" to="." method="node_deselect"]
+[connection signal="node_selected" from="canvas/ui_main" to="." method="node_select"]
 [connection signal="request_camera_bind" from="canvas/ui_main" to="." method="create_editor_camera"]

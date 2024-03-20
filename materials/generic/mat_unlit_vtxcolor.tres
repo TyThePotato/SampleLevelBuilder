@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b6vak65r3p052"]
+
+[resource]
+shading_mode = 0
+diffuse_mode = 1
+specular_mode = 2
+disable_ambient_light = true
+vertex_color_use_as_albedo = true
+texture_filter = 0
+distance_fade_mode = 1
+distance_fade_min_distance = 50.0

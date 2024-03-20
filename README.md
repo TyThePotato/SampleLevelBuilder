@@ -14,7 +14,7 @@ Licensed under the MIT License (more info in LICENSE file).
 
 ### General Editing Features
 - [🚧] Object creation/selection/deletion
-- [📆] Multi-Selection
+- [🚧] Multi-Selection
 - [📆] Basic object shapes
 - [✅] Undo/Redo
 

@@ -193,6 +193,7 @@ text = "Outliner"
 layout_mode = 2
 size_flags_vertical = 3
 hide_folding = true
+select_mode = 2
 scroll_horizontal_enabled = false
 
 [node name="properties" type="Control" parent="vbox/bottom/hsplit/editing_windows/vsplit"]
@@ -264,3 +265,5 @@ script = ExtResource("3_ux4yc")
 [connection signal="id_pressed" from="vbox/menu_bar/MenuBar/Level" to="." method="_menu_btn_level"]
 [connection signal="id_pressed" from="vbox/menu_bar/MenuBar/Edit" to="." method="_menu_btn_edit"]
 [connection signal="id_pressed" from="vbox/menu_bar/MenuBar/View" to="." method="_menu_btn_view"]
+[connection signal="multi_selected" from="vbox/bottom/hsplit/editing_windows/vsplit/outliner/vbox/tree" to="." method="_set_outliner_item_selected"]
+[connection signal="multi_selected" from="vbox/bottom/hsplit/editing_windows/vsplit/outliner/vbox/tree" to="." method="_outliner_item_selected"]

@@ -12,7 +12,10 @@ extends Node
 @export var _outliner_icon_terrain: Texture2D
 
 # ui variables
+
+# makeshift 2-way dictionary - access value using key and key using value
 var _outliner_items := {} # Node3D | TreeItem
+var _outliner_nodes := {} # TreeItem | Node3D
 
 func _ready():
 	# bind camera to subviewport
@@ -74,6 +77,8 @@ func add_nodes_to_outliner(nodes: Array) -> void:
 		
 		var tree_item := _outliner_tree.create_item()
 		_outliner_items[node] = tree_item
+		_outliner_nodes[tree_item] = node
+		
 		style_outliner_tree_node(node)
 	
 		print('added item')
@@ -83,8 +88,11 @@ func remove_nodes_from_outliner(nodes: Array) -> void:
 		if not node is Node3D: continue # ignore nodes that dont derive from node3d
 		
 		if _outliner_items.has(node):
-			_outliner_items[node].free() # delete tree item
-			_outliner_items.erase(node) # remove from dict
+			var tree_item = _outliner_items[node]
+			_outliner_nodes.erase(tree_item) # remove from dict #2
+			_outliner_items.erase(node) # remove from dict #1
+			
+			tree_item.free() # delete tree item
 
 func style_outliner_tree_node(node: Node3D) -> void:
 	if not _outliner_items.has(node): return
@@ -95,6 +103,14 @@ func style_outliner_tree_node(node: Node3D) -> void:
 	#tree_item.set_icon_modulate(0, Color(0, 0, 1))
 	
 	tree_item.set_text(0, node.name)
+
+func _set_outliner_item_selected(item: TreeItem, column: int, selected: bool):
+	var node := _outliner_nodes[item] as Node3D
+	
+	if selected:
+		node_selected.emit(node)
+	else:
+		node_deselected.emit(node)
 
 # GENERAL #
 
@@ -111,6 +127,10 @@ func get_node_icon(node: Node) -> Texture2D:
 
 signal request_camera_bind(sub_viewport: SubViewport)
 
+signal node_selected(node: Node3D)
+signal node_deselected(node: Node3D)
+
+# buttons
 signal btn_editor_exit
 
 signal btn_edit_new
