@@ -1,13 +1,25 @@
 # Godot 4+ specific ignores
-.godot/
+Project/LevelBuilderGD/.godot/
 
 # Godot-specific ignores
-.import/
-export.cfg
-export_presets.cfg
+Project/LevelBuilderGD/.import/
+Project/LevelBuilderGD/export.cfg
+Project/LevelBuilderGD/export_presets.cfg
 
 # Imported translations (automatically generated from CSV files)
-*.translation
+Project/LevelBuilderGD/*.translation
+
+# os junk
+**/.DS_Store
+**/.DS_Store?
+**/._*
+**/.Spotlight-V100
+**/.Trashes
+**/Thumbs.db
+
+# ignore builds
+Builds/
+Builds/*
 
 # ignore progress folder for checkpoints
 Progress
