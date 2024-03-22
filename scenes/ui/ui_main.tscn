@@ -1,14 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://dkhhuhw8dy2p6"]
+[gd_scene load_steps=9 format=3 uid="uid://dkhhuhw8dy2p6"]
 
 [ext_resource type="Script" path="res://scripts/ui/editor_ui.gd" id="1_8skki"]
 [ext_resource type="Theme" uid="uid://cxh7ldhx5mqkh" path="res://themes/light/thm_light.tres" id="1_wmxdq"]
-[ext_resource type="Script" path="res://scripts/ui/history_log.gd" id="2_16ktv"]
 [ext_resource type="Texture2D" uid="uid://bn1rxs674bej6" path="res://sprites/outliner/spr_generic.png" id="3_3h17x"]
-[ext_resource type="Script" path="res://scripts/ui/fps_counter.gd" id="3_ux4yc"]
 [ext_resource type="Texture2D" uid="uid://cwxpjduk410eu" path="res://sprites/outliner/spr_object.png" id="4_wybqb"]
 [ext_resource type="Texture2D" uid="uid://d1rn3tvmk4ccj" path="res://sprites/outliner/spr_terrain.png" id="5_ugi7j"]
+[ext_resource type="Script" path="res://scripts/ui/history_log_ui.gd" id="6_7x81c"]
+[ext_resource type="Script" path="res://scripts/ui/selection_properties_ui.gd" id="6_yhw7h"]
+[ext_resource type="Script" path="res://scripts/ui/fps_counter_ui.gd" id="7_3y2ym"]
 
-[node name="ui_main" type="Control" node_paths=PackedStringArray("_sub_viewport", "_outliner_tree")]
+[node name="ui_main" type="Control" node_paths=PackedStringArray("_sub_viewport", "_outliner_tree", "_properties")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,6 +20,7 @@ theme = ExtResource("1_wmxdq")
 script = ExtResource("1_8skki")
 _sub_viewport = NodePath("vbox/bottom/hsplit/3d_viewport/viewport_container/sub_viewport")
 _outliner_tree = NodePath("vbox/bottom/hsplit/editing_windows/vsplit/outliner/vbox/tree")
+_properties = NodePath("vbox/bottom/hsplit/editing_windows/vsplit/properties")
 _outliner_icon_generic = ExtResource("3_3h17x")
 _outliner_icon_object = ExtResource("4_wybqb")
 _outliner_icon_terrain = ExtResource("5_ugi7j")
@@ -196,10 +198,12 @@ hide_folding = true
 select_mode = 2
 scroll_horizontal_enabled = false
 
-[node name="properties" type="Control" parent="vbox/bottom/hsplit/editing_windows/vsplit"]
+[node name="properties" type="Control" parent="vbox/bottom/hsplit/editing_windows/vsplit" node_paths=PackedStringArray("properties_label")]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("6_yhw7h")
+properties_label = NodePath("vbox/properties_label")
 
 [node name="bg" type="Panel" parent="vbox/bottom/hsplit/editing_windows/vsplit/properties"]
 layout_mode = 1
@@ -234,6 +238,10 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Properties"
 
+[node name="properties_label" type="Label" parent="vbox/bottom/hsplit/editing_windows/vsplit/properties/vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="history_log" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 3
@@ -248,7 +256,7 @@ grow_vertical = 0
 theme_type_variation = &"LabelOutline"
 horizontal_alignment = 2
 vertical_alignment = 2
-script = ExtResource("2_16ktv")
+script = ExtResource("6_7x81c")
 
 [node name="fps_counter" type="Label" parent="."]
 layout_mode = 1
@@ -260,7 +268,7 @@ offset_right = 40.0
 grow_vertical = 0
 theme_type_variation = &"LabelOutline"
 vertical_alignment = 2
-script = ExtResource("3_ux4yc")
+script = ExtResource("7_3y2ym")
 
 [connection signal="id_pressed" from="vbox/menu_bar/MenuBar/Level" to="." method="_menu_btn_level"]
 [connection signal="id_pressed" from="vbox/menu_bar/MenuBar/Edit" to="." method="_menu_btn_edit"]

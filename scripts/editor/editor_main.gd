@@ -108,11 +108,15 @@ func nodes_select(nodes: Array[Node3D]) -> void:
 	for node in nodes:
 		if not _selected_objects.has(node):
 			_selected_objects.append(node)
+			
+	nodes_selected.emit(_selected_objects)
 	
 func nodes_deselect(nodes: Array) -> void:
 	for i in range(_selected_objects.size() - 1, -1, -1):
 		if (nodes.has(_selected_objects[i])):
 			_selected_objects.remove_at(i)
+			
+	nodes_selected.emit(_selected_objects)
 	
 func node_select(object: Node3D) -> void:
 	nodes_select([object])
@@ -176,3 +180,7 @@ func cmd_ping():
 	# used for testing command system
 	var cmd := CommandPing.new()
 	CommandManager.insert_command(cmd, true)
+
+# SIGNALS #
+	
+signal nodes_selected(nodes: Array)

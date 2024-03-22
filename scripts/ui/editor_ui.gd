@@ -4,6 +4,7 @@ extends Node
 # node references
 @export var _sub_viewport: SubViewport
 @export var _outliner_tree: Tree
+@export var _properties: SelectionPropertiesUI
 
 # texture assets
 # TODO: dynamic type checking + icon dictionary?
@@ -112,7 +113,58 @@ func _set_outliner_item_selected(item: TreeItem, column: int, selected: bool):
 	else:
 		node_deselected.emit(node)
 
+# PROPERTIES #
+
+func set_properties_objects(objects: Array):
+	_properties.show_object_properties(objects)
+	
+func set_properties_terrains(terrains: Array):
+	_properties.show_terrains_properties(terrains)
+	
+func set_properties_level():
+	_properties.show_level_properties()
+	
+func set_properties_mixed():
+	_properties.show_mixed()
+
+func set_properties_clear():
+	_properties.clear()
+	
 # GENERAL #
+
+func selection_updated(nodes: Array):
+	# TODO: make sure outliner nodes are selected (and avoid recursion)
+	
+	var selection_type := ''
+	
+	for node: Node in nodes:
+		if node is LevelObject:
+			if selection_type == '':
+				selection_type = 'object'
+			elif selection_type != 'object':
+				selection_type = 'mixed'
+				break
+			
+		elif node is Terrain:
+			if selection_type == '':
+				selection_type = 'terrain'
+			elif selection_type != 'terrain':
+				selection_type = 'mixed'
+				break
+				
+		elif node.name == 'Level':
+			if selection_type == '':
+				selection_type = 'level'
+			elif selection_type != 'level':
+				selection_type = 'mixed'
+				break
+		
+	match selection_type:
+		'object': set_properties_objects(nodes)
+		'terrain': set_properties_terrains(nodes)
+		'level': set_properties_level()
+		'mixed': set_properties_mixed()
+		'': set_properties_clear()
 
 func get_node_icon(node: Node) -> Texture2D:
 	if node is LevelObject:

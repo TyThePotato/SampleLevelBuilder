@@ -36,6 +36,7 @@ transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -
 material_override = ExtResource("6_ocqro")
 script = ExtResource("6_5kuho")
 
+[connection signal="nodes_selected" from="." to="canvas/ui_main" method="selection_updated"]
 [connection signal="btn_edit_delete" from="canvas/ui_main" to="." method="cmd_object_delete"]
 [connection signal="btn_edit_new" from="canvas/ui_main" to="." method="cmd_object_new"]
 [connection signal="btn_edit_redo" from="canvas/ui_main" to="." method="cmd_redo"]
