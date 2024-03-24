@@ -14,6 +14,10 @@ sky_material = ExtResource("3_vkjrj")
 [sub_resource type="Environment" id="Environment_3sj8v"]
 background_mode = 2
 sky = SubResource("Sky_08cym")
+ambient_light_source = 2
+ambient_light_color = Color(0.321569, 0.321569, 0.321569, 1)
+reflected_light_source = 1
+ssao_enabled = true
 
 [node name="editor_main" type="Node3D"]
 script = ExtResource("1_02vvt")
@@ -31,12 +35,15 @@ environment = SubResource("Environment_3sj8v")
 
 [node name="dir_light" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 0, 0)
+shadow_enabled = true
 
 [node name="grid" type="MeshInstance3D" parent="."]
 material_override = ExtResource("6_ocqro")
 script = ExtResource("6_5kuho")
 
+[connection signal="nodes_modified" from="." to="canvas/ui_main" method="refresh_outliner_nodes"]
 [connection signal="nodes_selected" from="." to="canvas/ui_main" method="selection_updated"]
+[connection signal="selection_modified" from="." to="canvas/ui_main" method="selection_updated"]
 [connection signal="btn_edit_delete" from="canvas/ui_main" to="." method="cmd_object_delete"]
 [connection signal="btn_edit_new" from="canvas/ui_main" to="." method="cmd_object_new"]
 [connection signal="btn_edit_redo" from="canvas/ui_main" to="." method="cmd_redo"]
@@ -45,4 +52,5 @@ script = ExtResource("6_5kuho")
 [connection signal="btn_ping" from="canvas/ui_main" to="." method="cmd_ping"]
 [connection signal="node_deselected" from="canvas/ui_main" to="." method="node_deselect"]
 [connection signal="node_selected" from="canvas/ui_main" to="." method="node_select"]
+[connection signal="properties_modified" from="canvas/ui_main" to="." method="cmd_selection_modify"]
 [connection signal="request_camera_bind" from="canvas/ui_main" to="." method="create_editor_camera"]

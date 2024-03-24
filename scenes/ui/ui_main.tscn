@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dkhhuhw8dy2p6"]
+[gd_scene load_steps=11 format=3 uid="uid://dkhhuhw8dy2p6"]
 
 [ext_resource type="Script" path="res://scripts/ui/editor_ui.gd" id="1_8skki"]
 [ext_resource type="Theme" uid="uid://cxh7ldhx5mqkh" path="res://themes/light/thm_light.tres" id="1_wmxdq"]
@@ -6,10 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://cwxpjduk410eu" path="res://sprites/outliner/spr_object.png" id="4_wybqb"]
 [ext_resource type="Texture2D" uid="uid://d1rn3tvmk4ccj" path="res://sprites/outliner/spr_terrain.png" id="5_ugi7j"]
 [ext_resource type="Script" path="res://scripts/ui/history_log_ui.gd" id="6_7x81c"]
+[ext_resource type="Script" path="res://scripts/ui/outliner_ui.gd" id="6_igi63"]
 [ext_resource type="Script" path="res://scripts/ui/selection_properties_ui.gd" id="6_yhw7h"]
 [ext_resource type="Script" path="res://scripts/ui/fps_counter_ui.gd" id="7_3y2ym"]
+[ext_resource type="PackedScene" uid="uid://n1w1qv1nk8nq" path="res://scenes/ui/property_elements/property_element_text.tscn" id="7_mp4xd"]
 
-[node name="ui_main" type="Control" node_paths=PackedStringArray("_sub_viewport", "_outliner_tree", "_properties")]
+[node name="ui_main" type="Control" node_paths=PackedStringArray("_sub_viewport", "_outliner", "_properties")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,11 +21,8 @@ grow_vertical = 2
 theme = ExtResource("1_wmxdq")
 script = ExtResource("1_8skki")
 _sub_viewport = NodePath("vbox/bottom/hsplit/3d_viewport/viewport_container/sub_viewport")
-_outliner_tree = NodePath("vbox/bottom/hsplit/editing_windows/vsplit/outliner/vbox/tree")
+_outliner = NodePath("vbox/bottom/hsplit/editing_windows/vsplit/outliner")
 _properties = NodePath("vbox/bottom/hsplit/editing_windows/vsplit/properties")
-_outliner_icon_generic = ExtResource("3_3h17x")
-_outliner_icon_object = ExtResource("4_wybqb")
-_outliner_icon_terrain = ExtResource("5_ugi7j")
 
 [node name="background" type="Panel" parent="."]
 layout_mode = 1
@@ -138,7 +137,7 @@ stretch = true
 
 [node name="sub_viewport" type="SubViewport" parent="vbox/bottom/hsplit/3d_viewport/viewport_container"]
 handle_input_locally = false
-size = Vector2i(872, 588)
+size = Vector2i(2, 2)
 render_target_update_mode = 4
 
 [node name="editing_windows" type="Control" parent="vbox/bottom/hsplit"]
@@ -153,10 +152,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="outliner" type="Control" parent="vbox/bottom/hsplit/editing_windows/vsplit"]
+[node name="outliner" type="Control" parent="vbox/bottom/hsplit/editing_windows/vsplit" node_paths=PackedStringArray("_tree")]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("6_igi63")
+_tree = NodePath("vbox/tree")
+_icon_default = ExtResource("3_3h17x")
+_icon_object = ExtResource("4_wybqb")
+_icon_terrain = ExtResource("5_ugi7j")
 
 [node name="bg" type="Panel" parent="vbox/bottom/hsplit/editing_windows/vsplit/outliner"]
 layout_mode = 1
@@ -198,12 +202,13 @@ hide_folding = true
 select_mode = 2
 scroll_horizontal_enabled = false
 
-[node name="properties" type="Control" parent="vbox/bottom/hsplit/editing_windows/vsplit" node_paths=PackedStringArray("properties_label")]
+[node name="properties" type="Control" parent="vbox/bottom/hsplit/editing_windows/vsplit" node_paths=PackedStringArray("_elements_root")]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("6_yhw7h")
-properties_label = NodePath("vbox/properties_label")
+_elements_root = NodePath("vbox/ScrollContainer/vbox")
+_element_text_prefab = ExtResource("7_mp4xd")
 
 [node name="bg" type="Panel" parent="vbox/bottom/hsplit/editing_windows/vsplit/properties"]
 layout_mode = 1
@@ -238,8 +243,13 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Properties"
 
-[node name="properties_label" type="Label" parent="vbox/bottom/hsplit/editing_windows/vsplit/properties/vbox"]
+[node name="ScrollContainer" type="ScrollContainer" parent="vbox/bottom/hsplit/editing_windows/vsplit/properties/vbox"]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="vbox" type="VBoxContainer" parent="vbox/bottom/hsplit/editing_windows/vsplit/properties/vbox/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="history_log" type="Label" parent="."]
@@ -273,5 +283,7 @@ script = ExtResource("7_3y2ym")
 [connection signal="id_pressed" from="vbox/menu_bar/MenuBar/Level" to="." method="_menu_btn_level"]
 [connection signal="id_pressed" from="vbox/menu_bar/MenuBar/Edit" to="." method="_menu_btn_edit"]
 [connection signal="id_pressed" from="vbox/menu_bar/MenuBar/View" to="." method="_menu_btn_view"]
-[connection signal="multi_selected" from="vbox/bottom/hsplit/editing_windows/vsplit/outliner/vbox/tree" to="." method="_set_outliner_item_selected"]
-[connection signal="multi_selected" from="vbox/bottom/hsplit/editing_windows/vsplit/outliner/vbox/tree" to="." method="_outliner_item_selected"]
+[connection signal="node_deselected" from="vbox/bottom/hsplit/editing_windows/vsplit/outliner" to="." method="_outliner_item_deselected"]
+[connection signal="node_selected" from="vbox/bottom/hsplit/editing_windows/vsplit/outliner" to="." method="_outliner_item_selected"]
+[connection signal="multi_selected" from="vbox/bottom/hsplit/editing_windows/vsplit/outliner/vbox/tree" to="vbox/bottom/hsplit/editing_windows/vsplit/outliner" method="_set_item_selected"]
+[connection signal="property_element_value_changed" from="vbox/bottom/hsplit/editing_windows/vsplit/properties" to="." method="_property_modified"]

@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://n1w1qv1nk8nq"]
+
+[ext_resource type="Script" path="res://scripts/ui/property_elements/property_element_text.gd" id="1_pr3e5"]
+
+[node name="property_element_text" type="Control" node_paths=PackedStringArray("_line_edit", "_label")]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_pr3e5")
+_line_edit = NodePath("field/line_edit")
+_label = NodePath("label")
+
+[node name="label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.35
+anchor_bottom = 1.0
+offset_left = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Property"
+
+[node name="field" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.35
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="line_edit" type="LineEdit" parent="field"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="text_submitted" from="field/line_edit" to="." method="_line_edit_submitted"]
