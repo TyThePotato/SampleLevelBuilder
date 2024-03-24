@@ -30,3 +30,4 @@ func execute_command():
 func execute_command_revert():
 	editor_main.objects_new(_objects_properties)
 	# ids should already be known so there is no need to retrieve them like in CommandObjectNew
+	

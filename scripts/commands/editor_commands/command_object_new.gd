@@ -17,12 +17,12 @@ func execute_command():
 
 	# store object ids on first execution
 	if _objects_ids.is_empty():
-#		_objects_ids = PackedInt32Array() # unnecessary?
 		_objects_ids.resize(objects.size())
 	
 		var i := 0
 		for object in objects:
 			_objects_ids[i] = object.id
+			_objects_properties[i].id = object.id # assuming properties is in the same order... is it?
 			i += 1
 
 # Remove object

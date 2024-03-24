@@ -148,7 +148,7 @@ func node_modify_by_id(id: int, modifications: Dictionary) -> void:
     # Hardcoded IDs
     if id == -1:
         # level
-        target = builder.level_root_node
+        target = _level_root_node
     elif id == -2:
         # terrain
         target = builder.terrain_node
@@ -156,9 +156,6 @@ func node_modify_by_id(id: int, modifications: Dictionary) -> void:
         var nodes = get_objects_from_ids(PackedInt32Array([id]))
         if nodes.size() > 0:
             target = nodes[0]
-            
-    print('id: ' + str(id))
-    print('target: ' + str(target))
 
     if target != null:
         node_modify(target, modifications)
@@ -194,7 +191,7 @@ func get_objects_from_ids(ids: PackedInt32Array):
     
 func get_node_property_dict(node: Node3D, properties: Array) -> Dictionary:
     var dict := {}
-    
+
     if node is LevelObject:
         if 'name' in properties:
             dict['name'] = node.name
@@ -204,6 +201,23 @@ func get_node_property_dict(node: Node3D, properties: Array) -> Dictionary:
         pass
         
     return dict
+    
+func get_new_object_name(base: String) -> String:
+    if not _level_root_node.has_node(base):
+        return base
+    
+    var i := 2
+    var unique := false
+    while not unique:
+        if not _level_root_node.has_node(base + str(i)):
+            unique = true
+        else:
+            i += 1
+            
+        if i > 500:
+            return 'NO'
+            
+    return base + str(i)
 
 # COMMAND FUNCTIONS #
 
@@ -211,6 +225,7 @@ func cmd_object_new():
     var props := LevelObjectProperties.new()
     var rand_pos := Vector3(randf() * 10, 1, randf() * 10)
     props.position = rand_pos
+    props.name = get_new_object_name('New Object')
 
     var cmd := CommandObjectNew.new([props])
     CommandManager.insert_command(cmd, true)
@@ -220,6 +235,9 @@ func cmd_object_delete():
     for obj in _selected_objects:
         if obj is LevelObject:
             level_objects.append(obj)
+        
+    if level_objects.size() == 0:
+        return
 
     var cmd := CommandObjectDelete.new(level_objects)
     CommandManager.insert_command(cmd, true)
