@@ -7,7 +7,7 @@ var terrain_node: Terrain
 
 #func _ready() -> void:
 
-func initialize_level() -> Node3D:
+func initialize_level() -> LevelRoot:
 	# create root node
 	level_root_node = LevelRoot.new()
 	level_root_node.name = 'Level'

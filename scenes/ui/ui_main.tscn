@@ -1,15 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://dkhhuhw8dy2p6"]
+[gd_scene load_steps=12 format=3 uid="uid://dkhhuhw8dy2p6"]
 
 [ext_resource type="Script" path="res://scripts/ui/editor_ui.gd" id="1_8skki"]
 [ext_resource type="Theme" uid="uid://cxh7ldhx5mqkh" path="res://themes/light/thm_light.tres" id="1_wmxdq"]
 [ext_resource type="Texture2D" uid="uid://bn1rxs674bej6" path="res://sprites/outliner/spr_generic.png" id="3_3h17x"]
 [ext_resource type="Texture2D" uid="uid://cwxpjduk410eu" path="res://sprites/outliner/spr_object.png" id="4_wybqb"]
 [ext_resource type="Texture2D" uid="uid://d1rn3tvmk4ccj" path="res://sprites/outliner/spr_terrain.png" id="5_ugi7j"]
-[ext_resource type="Script" path="res://scripts/ui/history_log_ui.gd" id="6_7x81c"]
 [ext_resource type="Script" path="res://scripts/ui/outliner_ui.gd" id="6_igi63"]
 [ext_resource type="Script" path="res://scripts/ui/selection_properties_ui.gd" id="6_yhw7h"]
 [ext_resource type="Script" path="res://scripts/ui/fps_counter_ui.gd" id="7_3y2ym"]
 [ext_resource type="PackedScene" uid="uid://n1w1qv1nk8nq" path="res://scenes/ui/property_elements/property_element_text.tscn" id="7_mp4xd"]
+[ext_resource type="PackedScene" uid="uid://bugba4qp23gpn" path="res://scenes/ui/property_elements/property_element_vector.tscn" id="9_2pwjo"]
+[ext_resource type="PackedScene" uid="uid://c66wqqqngedb" path="res://scenes/ui/property_elements/property_element_color.tscn" id="10_dnjfn"]
 
 [node name="ui_main" type="Control" node_paths=PackedStringArray("_sub_viewport", "_outliner", "_properties")]
 layout_mode = 3
@@ -137,7 +138,7 @@ stretch = true
 
 [node name="sub_viewport" type="SubViewport" parent="vbox/bottom/hsplit/3d_viewport/viewport_container"]
 handle_input_locally = false
-size = Vector2i(2, 2)
+size = Vector2i(872, 588)
 render_target_update_mode = 4
 
 [node name="editing_windows" type="Control" parent="vbox/bottom/hsplit"]
@@ -206,9 +207,12 @@ scroll_horizontal_enabled = false
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
+focus_mode = 1
 script = ExtResource("6_yhw7h")
 _elements_root = NodePath("vbox/ScrollContainer/vbox")
 _element_text_prefab = ExtResource("7_mp4xd")
+_element_vector_prefab = ExtResource("9_2pwjo")
+_element_color_prefab = ExtResource("10_dnjfn")
 
 [node name="bg" type="Panel" parent="vbox/bottom/hsplit/editing_windows/vsplit/properties"]
 layout_mode = 1
@@ -252,32 +256,16 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="history_log" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_type_variation = &"LabelOutline"
-horizontal_alignment = 2
-vertical_alignment = 2
-script = ExtResource("6_7x81c")
-
 [node name="fps_counter" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -23.0
-offset_right = 40.0
-grow_vertical = 0
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_top = 8.0
+offset_right = -8.0
+grow_horizontal = 0
 theme_type_variation = &"LabelOutline"
-vertical_alignment = 2
+horizontal_alignment = 2
 script = ExtResource("7_3y2ym")
 
 [connection signal="id_pressed" from="vbox/menu_bar/MenuBar/Level" to="." method="_menu_btn_level"]

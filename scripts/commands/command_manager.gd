@@ -1,3 +1,5 @@
+# TODO: implement history cap
+
 extends Node
 
 var editor_main: EditorMain
@@ -36,13 +38,17 @@ func execute_next_command() -> void:
 
     _command_history[_last_command_index].execute_command()
 
+func clear_all_history() -> void:
+    _command_history.clear()
+    _last_command_index = -1    
+
 func _clear_future_history() -> void:
     if _last_command_index >= _command_history.size() - 1:
         # at the end of history
         return
         
     _command_history = _command_history.slice(0, _last_command_index + 1)
-    
+
 # DEBUG #
     
 func get_history_string() -> String:

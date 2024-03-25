@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://c7tg873gjkq4c"]
+[gd_scene load_steps=11 format=3 uid="uid://c7tg873gjkq4c"]
 
 [ext_resource type="Script" path="res://scripts/editor/editor_main.gd" id="1_02vvt"]
 [ext_resource type="PackedScene" uid="uid://dp32qy7216eyp" path="res://scenes/prefabs/pfb_editor_camera.tscn" id="2_s7jxf"]
 [ext_resource type="Script" path="res://scripts/editor/editor_builder.gd" id="2_x8mpy"]
 [ext_resource type="PackedScene" uid="uid://dkhhuhw8dy2p6" path="res://scenes/ui/ui_main.tscn" id="3_40rnc"]
+[ext_resource type="Material" uid="uid://cm4ul7owqtaej" path="res://materials/generic/mat_lit_vtxcolor.tres" id="3_mhfje"]
 [ext_resource type="Material" uid="uid://sgdoanwwof0b" path="res://materials/mat_sky.tres" id="3_vkjrj"]
 [ext_resource type="Script" path="res://scripts/gizmos/grid_renderer.gd" id="6_5kuho"]
 [ext_resource type="Material" uid="uid://b6vak65r3p052" path="res://materials/generic/mat_unlit_vtxcolor.tres" id="6_ocqro"]
@@ -22,6 +23,7 @@ ssao_enabled = true
 [node name="editor_main" type="Node3D"]
 script = ExtResource("1_02vvt")
 editor_camera_prefab = ExtResource("2_s7jxf")
+default_material = ExtResource("3_mhfje")
 
 [node name="editor_builder" type="Node" parent="."]
 script = ExtResource("2_x8mpy")
@@ -49,6 +51,7 @@ script = ExtResource("6_5kuho")
 [connection signal="btn_edit_redo" from="canvas/ui_main" to="." method="cmd_redo"]
 [connection signal="btn_edit_undo" from="canvas/ui_main" to="." method="cmd_undo"]
 [connection signal="btn_editor_exit" from="canvas/ui_main" to="." method="editor_exit"]
+[connection signal="btn_file_new" from="canvas/ui_main" to="." method="create_new_file"]
 [connection signal="btn_ping" from="canvas/ui_main" to="." method="cmd_ping"]
 [connection signal="node_deselected" from="canvas/ui_main" to="." method="node_deselect"]
 [connection signal="node_selected" from="canvas/ui_main" to="." method="node_select"]

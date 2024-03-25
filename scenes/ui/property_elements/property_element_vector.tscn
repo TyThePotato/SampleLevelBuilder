@@ -1,0 +1,82 @@
+[gd_scene load_steps=2 format=3 uid="uid://bugba4qp23gpn"]
+
+[ext_resource type="Script" path="res://scripts/ui/property_elements/property_element_vector.gd" id="1_bw421"]
+
+[node name="property_element_text" type="Control" node_paths=PackedStringArray("_spin_box_x", "_spin_box_y", "_spin_box_z", "_label")]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_bw421")
+_spin_box_x = NodePath("field/spin_box_x")
+_spin_box_y = NodePath("field/spin_box_y")
+_spin_box_z = NodePath("field/spin_box_z")
+_label = NodePath("label")
+
+[node name="label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.35
+anchor_bottom = 1.0
+offset_left = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Property"
+
+[node name="field" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.35
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="spin_box_x" type="SpinBox" parent="field"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.333
+anchor_bottom = 1.0
+offset_right = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 0.0
+step = 0.0
+allow_greater = true
+allow_lesser = true
+alignment = 1
+custom_arrow_step = 0.25
+
+[node name="spin_box_y" type="SpinBox" parent="field"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.333
+anchor_right = 0.666
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 0.0
+step = 0.0
+allow_greater = true
+allow_lesser = true
+alignment = 1
+custom_arrow_step = 0.25
+
+[node name="spin_box_z" type="SpinBox" parent="field"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.666
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 0.0
+step = 0.0
+allow_greater = true
+allow_lesser = true
+alignment = 1
+custom_arrow_step = 0.25
+
+[connection signal="value_changed" from="field/spin_box_x" to="." method="_spin_box_x_changed"]
+[connection signal="value_changed" from="field/spin_box_y" to="." method="_spin_box_y_changed"]
+[connection signal="value_changed" from="field/spin_box_z" to="." method="_spin_box_z_changed"]

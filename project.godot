@@ -19,6 +19,7 @@ config/icon="res://sprites/icon.svg"
 [autoload]
 
 CommandManager="*res://scripts/commands/command_manager.gd"
+CommandParser="*res://scripts/commands/command_parser.gd"
 
 [debug_draw_3d]
 
@@ -33,6 +34,7 @@ project/assembly_name="Level Builder GD"
 
 folder_colors={
 "res://addons/": "gray",
+"res://lang/": "orange",
 "res://materials/": "blue",
 "res://meshes/": "red",
 "res://scenes/": "yellow",
@@ -85,3 +87,7 @@ movement_modifier_speed={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://lang/lang.en.translation")

@@ -2,6 +2,8 @@ extends MeshInstance3D
 
 class_name Terrain
 
+var id := -2 # hardcoded
+
 # customiztion
 var resolution: int = 32
 

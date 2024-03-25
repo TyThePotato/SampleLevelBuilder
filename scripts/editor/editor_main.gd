@@ -4,26 +4,29 @@ extends Node
 # prefabs
 @export var editor_camera_prefab: PackedScene
 
+# assets
+@export var default_material: Material
+
 # node references
 # TODO: autoload?
 @onready var builder: EditorBuilder = $editor_builder
 @onready var ui: EditorUI = $canvas/ui_main
 
-var _level_root_node: Node3D
+var _level_root_node: LevelRoot
 
 # level properties
 var level_name: String = 'New Level'
 
 var _last_id: int = 0
-var _selected_objects: Array[Node3D] = []
+var _selected_objects := []
 
 func _ready():
     # prepare command system
     CommandManager.editor_main = self
+    CommandManager.clear_all_history()
 
     # prepare initial map
-    clear_level()
-    create_new_file()
+    prepare_new_level()
 
 # EDITOR FUNCTIONS #
 
@@ -44,7 +47,7 @@ func editor_exit():
 # FILE FUNCTIONS #
 
 func create_new_file():
-    prepare_new_level()
+    clear_level()
 
 func open_file():
     pass
@@ -67,15 +70,16 @@ func prepare_new_level():
     print('New level prepared')
 
 func clear_level():
-    # TODO: delete all geometry & reset ui
-    print('Level cleared')
+    # simply reload scene
+    get_tree().reload_current_scene()
 
 # EDITING FUNCTIONS #
 
 func objects_new(properties: Array[LevelObjectProperties]) -> Array[LevelObject]:
     var ret_array: Array[LevelObject] = []
     for props in properties:
-        var obj = LevelObject.new(props)
+        var obj := LevelObject.new(props)
+        obj.material_override = default_material
 
         if props.id != -1:
             obj.id = props.id
@@ -91,20 +95,24 @@ func objects_new(properties: Array[LevelObjectProperties]) -> Array[LevelObject]
 
     return ret_array
 
-func objects_delete(objects: Array[LevelObject]) -> void:
+func objects_delete(objects: Array) -> void:
     # deselect objects (if selected)
     nodes_deselect(objects)
-
+    
+    var valid_objects := []
+    
     for object in objects:
-        builder.remove_object(object)
+        if object is LevelObject:
+            valid_objects.append(object)
+            builder.remove_object(object)
 
-    ui.remove_nodes_from_outliner(objects)
+    ui.remove_nodes_from_outliner(valid_objects)
 
 func objects_delete_by_id(objects_ids: PackedInt32Array) -> void:
-    var objects = get_objects_from_ids(objects_ids)
+    var objects := get_objects_from_ids(objects_ids)
     objects_delete(objects)
 
-func nodes_select(nodes: Array[Node3D]) -> void:
+func nodes_select(nodes: Array) -> void:
     for node in nodes:
         if not _selected_objects.has(node):
             _selected_objects.append(node)
@@ -122,14 +130,10 @@ func nodes_modify(nodes: Array[Node3D], modifications: Dictionary) -> void:
     for node in nodes:
         for key in modifications:
             var val = modifications[key]
-            
+            node.set(key, val)
+        
             if node is LevelObject:
-                if key == 'name':
-                    node.name = val
-            elif node is Terrain:
-                return
-            elif node is LevelRoot:
-                return
+                (node as LevelObject).refresh_mesh()
                     
     nodes_modified.emit(nodes)
 
@@ -145,17 +149,9 @@ func node_modify(object: Node3D, modifications: Dictionary) -> void:
 func node_modify_by_id(id: int, modifications: Dictionary) -> void:
     var target = null
     
-    # Hardcoded IDs
-    if id == -1:
-        # level
-        target = _level_root_node
-    elif id == -2:
-        # terrain
-        target = builder.terrain_node
-    else:
-        var nodes = get_objects_from_ids(PackedInt32Array([id]))
-        if nodes.size() > 0:
-            target = nodes[0]
+    var nodes := get_objects_from_ids(PackedInt32Array([id]))
+    if nodes.size() > 0:
+        target = nodes[0]
 
     if target != null:
         node_modify(target, modifications)
@@ -178,28 +174,26 @@ func selection_modify(modifications: Dictionary) -> void:
 
 # GENERAL #
 
-func get_objects_from_ids(ids: PackedInt32Array):
-    var objects: Array[LevelObject] = []
+func get_objects_from_ids(ids: PackedInt32Array) -> Array:
+    var objects := []
+    if _level_root_node.id in ids:
+        objects.append(_level_root_node)
+    
     for node in _level_root_node.get_children():
-        var obj := node as LevelObject
-        if obj == null: continue
-
-        if ids.has(obj.id):
-            objects.append(obj)
+        var id = node.get('id')
+        if id != null and ids.has(id):
+            objects.append(node)
 
     return objects
     
 func get_node_property_dict(node: Node3D, properties: Array) -> Dictionary:
     var dict := {}
 
-    if node is LevelObject:
-        if 'name' in properties:
-            dict['name'] = node.name
-    elif node is Terrain:
-        pass
-    elif node is LevelRoot:
-        pass
-        
+    for prop in properties:
+        var val = node.get(prop)
+        if val != null:
+            dict[prop] = val
+
     return dict
     
 func get_new_object_name(base: String) -> String:
@@ -208,14 +202,11 @@ func get_new_object_name(base: String) -> String:
     
     var i := 2
     var unique := false
-    while not unique:
+    while not unique: # oh boy! i love while loops!
         if not _level_root_node.has_node(base + str(i)):
             unique = true
         else:
             i += 1
-            
-        if i > 500:
-            return 'NO'
             
     return base + str(i)
 
@@ -223,8 +214,6 @@ func get_new_object_name(base: String) -> String:
 
 func cmd_object_new():
     var props := LevelObjectProperties.new()
-    var rand_pos := Vector3(randf() * 10, 1, randf() * 10)
-    props.position = rand_pos
     props.name = get_new_object_name('New Object')
 
     var cmd := CommandObjectNew.new([props])
@@ -243,26 +232,20 @@ func cmd_object_delete():
     CommandManager.insert_command(cmd, true)
 
 func cmd_selection_modify(modifications: Dictionary):
-    var ids := PackedInt32Array()
-    ids.resize(_selected_objects.size())
-    
+    var ids: Array[int]
     var old_mods: Array[Dictionary]
     var new_mods: Array[Dictionary]
     
     for i in range(_selected_objects.size()):
-        var obj := _selected_objects[i]
-        if obj is LevelObject:
-            ids[i] = (obj as LevelObject).id
-        elif obj is Terrain:
-            ids[i] = -2
-        elif obj is LevelRoot:
-            ids[i] = -1
-        
-        old_mods.append(get_node_property_dict(obj, modifications.keys()))
-        new_mods.append(modifications)
+        var obj = _selected_objects[i]
+        var id = obj.get('id')
+        if id != null:
+            ids.append(id)
+            old_mods.append(get_node_property_dict(obj, modifications.keys()))
+            new_mods.append(modifications)
         
     # execute
-    var cmd := CommandNodeModify.new(ids, old_mods, new_mods)
+    var cmd := CommandNodeModify.new(PackedInt32Array(ids), old_mods, new_mods)
     CommandManager.insert_command(cmd, true)
 
 func cmd_undo():

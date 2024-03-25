@@ -4,6 +4,7 @@ var name := 'New Object'
 var position := Vector3.ZERO
 var rotation := Vector3.ZERO
 var scale := Vector3.ONE
+var color := Color.WHITE
 
 var id := -1 # -1 = unassigned/no preference
 
@@ -12,5 +13,7 @@ func from_level_object(object: LevelObject):
 	position = object.position
 	rotation = object.rotation
 	scale = object.scale
+	color = object.color
+	
 	id = object.id
 	

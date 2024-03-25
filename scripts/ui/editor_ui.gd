@@ -23,10 +23,10 @@ func _ready():
 # TODO: better system...?
 
 var _menu_btn_level_table: Array[Signal] = [
-                                           Signal(),
-                                           Signal(),
-                                           Signal(),
-                                           Signal(),
+                                           btn_file_new,
+                                           btn_file_open,
+                                           btn_file_save,
+                                           btn_file_save_as,
                                            btn_editor_exit,
                                            ]
 
@@ -84,18 +84,6 @@ func _outliner_item_deselected(node):
 
 # PROPERTIES #
 
-func set_properties_objects(objects: Array):
-    _properties.show_object_properties(objects)
-
-func set_properties_terrains(terrains: Array):
-    _properties.show_terrains_properties(terrains)
-
-func set_properties_level():
-    _properties.show_level_properties()
-
-func set_properties_mixed():
-    _properties.show_mixed()
-
 func set_properties_clear():
     _properties.clear()
     
@@ -109,36 +97,7 @@ func selection_updated(nodes: Array):
     # TODO: make sure outliner nodes are selected (and avoid recursion)
     # NOTE: also used for property updates - take into consideration
 
-    var selection_type := ''
-
-    for node: Node in nodes:
-        if node is LevelObject:
-            if selection_type == '':
-                selection_type = 'object'
-            elif selection_type != 'object':
-                selection_type = 'mixed'
-                break
-
-        elif node is Terrain:
-            if selection_type == '':
-                selection_type = 'terrain'
-            elif selection_type != 'terrain':
-                selection_type = 'mixed'
-                break
-
-        elif node.name == 'Level':
-            if selection_type == '':
-                selection_type = 'level'
-            elif selection_type != 'level':
-                selection_type = 'mixed'
-                break
-
-    match selection_type:
-        'object': set_properties_objects(nodes)
-        'terrain': set_properties_terrains(nodes)
-        'level': set_properties_level()
-        'mixed': set_properties_mixed()
-        '': set_properties_clear()
+    _properties.show_properties(nodes)
 
 
 # SIGNALS #
@@ -151,6 +110,11 @@ signal node_deselected(node: Node3D)
 signal properties_modified(modifications: Dictionary)
 
 # buttons
+signal btn_file_new
+signal btn_file_open
+signal btn_file_save
+signal btn_file_save_as
+
 signal btn_editor_exit
 
 signal btn_edit_new

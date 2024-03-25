@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3 uid="uid://c66wqqqngedb"]
+
+[ext_resource type="Script" path="res://scripts/ui/property_elements/property_element_color.gd" id="1_n2dep"]
+
+[node name="property_element_text" type="Control" node_paths=PackedStringArray("_spin_box_r", "_spin_box_g", "_spin_box_b", "_label")]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_n2dep")
+_spin_box_r = NodePath("field/spin_box_r")
+_spin_box_g = NodePath("field/spin_box_g")
+_spin_box_b = NodePath("field/spin_box_b")
+_label = NodePath("label")
+
+[node name="label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.35
+anchor_bottom = 1.0
+offset_left = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Property"
+
+[node name="field" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.35
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="spin_box_r" type="SpinBox" parent="field"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.333
+anchor_bottom = 1.0
+offset_right = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 255.0
+step = 0.0
+rounded = true
+alignment = 1
+custom_arrow_step = 1.0
+
+[node name="spin_box_g" type="SpinBox" parent="field"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.333
+anchor_right = 0.666
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 255.0
+step = 0.0
+rounded = true
+alignment = 1
+custom_arrow_step = 1.0
+
+[node name="spin_box_b" type="SpinBox" parent="field"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.666
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 255.0
+step = 0.0
+rounded = true
+alignment = 1
+custom_arrow_step = 1.0
+
+[connection signal="value_changed" from="field/spin_box_r" to="." method="_spin_box_r_changed"]
+[connection signal="value_changed" from="field/spin_box_g" to="." method="_spin_box_g_changed"]
+[connection signal="value_changed" from="field/spin_box_b" to="." method="_spin_box_b_changed"]
